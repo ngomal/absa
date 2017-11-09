@@ -1,0 +1,80 @@
+﻿@model Absa.Models.Customer
+@{
+    ViewBag.Title = "Home Page";
+}
+ 
+<div ng-controller="CustomerController">
+    <h2 style="text-align:center">Customer</h2>
+    <hr />
+    <div ng-show="!canEdit">
+        <table class="table table-responsive table-bordered">
+            <tr>
+                <td>Firstname</td>
+                <td>{{customer.FirstNames}}</td>
+            </tr>
+            <tr>
+                <td>Surname</td>
+                <td>{{customer.Surname}}</td>
+            </tr>
+            <tr>
+                <td>Date of birth</td>
+                <td>{{customer.DateOfBirth  | dateFilter |date:'MMM dd, yyyy'}}</td>
+            </tr>
+            <tr>
+                <td>Identity Number</td>
+                <td>{{customer.IdentityNumber}}</td>
+            </tr>
+            <tr>
+                <td>Identity Type</td>
+                <td>{{customer.IdentityType}}</td>
+            </tr>
+        </table>
+        <p>
+            <input type="submit" class="btn btn-success" ng-click="EditCustomer(customer)" value="Edit" />            
+        </p>
+    </div>
+
+    <div ng-show="canEdit">
+        <form name="EditForm" novalidate>
+            <div style="color:red">{{message}}</div>
+            <table class="table table-responsive table-bordered">
+                <tr>
+                    <td>Firstnames</td>
+                    <td>
+                        <input class="textbox" type="text" ng-model="FirstNames" name="eFirstName" ng-class="submitted?'ng-dirty':''" required autofocus />
+                        <span class="error" ng-show="(EditForm.eName.$dirty || submitted) && EditForm.eName.$error.required">Name Is Required</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Surname</td>
+                    <td>
+                        <input class="textbox" type="text" ng-model="Surname" name="eSurname" ng-class="submitted?'ng-dirty':''" required autofocus />
+                        <span class="error" ng-show="(EditForm.eSurname.$dirty || submitted) && EditForm.eSurname.$error.required">Surname Is Required</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>DateOfBirth</td>
+                    <td>
+                        <input type="date" [ngModel]="DateOfBirth | date:'yyyy-MM-dd'" (ngModelChange)="DateOfBirth = $event">
+                        @*<input type="date" class="form-control" id="DateOfBirth" [ngModel]="DateOfBirth |dateFilter| date:'y-MM-dd'" (ngModelChange)="DateOfBirth = $event" name="DateOfBirth">*@
+                   </td>
+                </tr>
+                <tr>
+                    <td>Identity Number</td>
+                    <td>
+                        <input class="textbox" type="text" ng-model="IdentityNumber" name="eIdentityNumber" ng-class="submitted?'ng-dirty':''" required autofocus />
+                        <span class="error" ng-show="(EditForm.eIdentityNumber.$dirty || submitted) && EditForm.eIdentityNumber.$error.required">Identity Number Is Required</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>IdentityType</td>                   
+                    <td><input class="textbox" type="text" ng-model="IdentityType" name="eIdentityType" ng-class="submitted?'ng-dirty':''" required autofocus />
+                        <span class="error" ng-show="(EditForm.eIdentityType.$dirty || submitted) && EditForm.eIdentityType.$error.required">Identity Type Is Required</span>
+                    </td>
+                </tr>
+            </table>
+            <input type="submit" class="btn btn-success" ng-click="UpdateCustomer(Customer)" value="Update" />
+            <input type="submit" class="btn btn-primary" value="Cancel" ng-click="RedirectToDetails(customer)" />
+        </form>
+    </div>
+</div>
